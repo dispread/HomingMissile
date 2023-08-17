@@ -8,8 +8,8 @@ Missile missile;
 
 void setup() {
   size(800, 600);
-  player = new Player(width/2, height/2);
-  missile = new Missile(width/2, height/8*7, player);
+  player = new Player(width/2, height/2, 1.4f);
+  missile = new Missile(width/2, height/8*7, player, 1.5f);
 }
 
 void draw() {
@@ -18,6 +18,7 @@ void draw() {
   
   player.move();
   
+  // If the player is faster than the missile predictive targetting breaks down
   if(missile.speed >= player.speed) {
     missile.predictiveTargetting();
   } else {
@@ -26,6 +27,7 @@ void draw() {
   
   missile.display();
   player.display();
+  player.resetVelocity();
   
   missile.move();
 }

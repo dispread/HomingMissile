@@ -1,28 +1,23 @@
 
-class Missile {
+class Missile extends Entity {
   
-  PVector position;
-  PVector velocity;
+  Entity target;
   
-  Player target;
-  float speed = 1.1;
-  int radius = 10;
-  
-  Missile(int xPos, int yPos, Player target) {
-    this.position = new PVector(xPos, yPos);
-    this.velocity = new PVector(3, 3);
+  Missile(int xPos, int yPos, Player target, float speed) {
+    super(new PVector(xPos, yPos), 10, speed, color(#00FF00));
     this.target = target;
+    println(position);
   }
   
-  void purePursuit() {
+  // Difference vector points from missile to target
+  PVector getDifferenceVector() {
     float dx = target.position.x - this.position.x;
     float dy = target.position.y - this.position.y;
-    velocity = new PVector(dx, dy).setMag(speed);
+    return new PVector(dx, dy);
   }
   
   void move() {
-    velocity.setMag(this.speed);
-    position.add(velocity);
+    super.move();
     velocity.set(0, 0);
     
     if(this.position.dist(target.position) < this.radius + target.radius) {
@@ -30,11 +25,12 @@ class Missile {
     }
   }
   
+  void purePursuit() {
+    velocity = getDifferenceVector().setMag(speed);
+  }
+  
   void predictiveTargetting() {
-    
-    float dx = target.position.x - this.position.x;
-    float dy = target.position.y - this.position.y;
-    PVector diff = new PVector(dx, dy);
+    PVector diff = getDifferenceVector();
     
     // Calculate the signed target angle (angle HUNTER-PREY-PREY_DIR), is between -180 (right) to 180 (left)
     float targetAngle = PI - atan2(diff.y * target.velocity.x - diff.x * target.velocity.y, diff.x * target.velocity.x + diff.y * target.velocity.y);
@@ -56,16 +52,5 @@ class Missile {
     fill(color(#FCAE03));
     circle(position.x, position.y, 80);
     this.position = new PVector(width/2, height/8*7);
-  }
-  
-  void display() {
-    stroke(255, 0, 0);
-    strokeWeight(5);
-    line(position.x, position.y, position.x + velocity.x * 5, position.y + velocity.y * 5);
-    
-    stroke(0);
-    strokeWeight(1);
-    fill(0, 255, 0);
-    circle(position.x, position.y, radius*2);
   }
 }
