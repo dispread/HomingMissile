@@ -1,7 +1,7 @@
 
 class Missile extends Entity {
   
-  Player target;
+  Entity target;
   
   Missile(int xPos, int yPos, Player target, float speed) {
     super(new PVector(xPos, yPos), 10, speed, color(#00FF00));
@@ -9,14 +9,11 @@ class Missile extends Entity {
     println(position);
   }
   
+  // Difference vector points from missile to target
   PVector getDifferenceVector() {
     float dx = target.position.x - this.position.x;
     float dy = target.position.y - this.position.y;
     return new PVector(dx, dy);
-  }
-  
-  void purePursuit() {
-    velocity = getDifferenceVector().setMag(speed);
   }
   
   void move() {
@@ -26,6 +23,10 @@ class Missile extends Entity {
     if(this.position.dist(target.position) < this.radius + target.radius) {
       detonate();
     }
+  }
+  
+  void purePursuit() {
+    velocity = getDifferenceVector().setMag(speed);
   }
   
   void predictiveTargetting() {

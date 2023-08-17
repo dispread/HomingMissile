@@ -8,7 +8,7 @@ Missile missile;
 
 void setup() {
   size(800, 600);
-  player = new Player(width/2, height/2);
+  player = new Player(width/2, height/2, 1.4f);
   missile = new Missile(width/2, height/8*7, player, 1.5f);
 }
 

@@ -1,8 +1,8 @@
 
 class Player extends Entity {
   
-  Player(int xPos, int yPos) {
-    super(new PVector(xPos, yPos), 15, 1.4f, color(#3232FF));
+  Player(int xPos, int yPos, float speed) {
+    super(new PVector(xPos, yPos), 15, speed, color(#3232FF));
   }
   
   void updateVelocity(PVector direction) {
