@@ -22,5 +22,8 @@ abstract class Entity {
     circle(position.x, position.y, radius * 2);
   }
   
-  
+  void move() {
+    velocity.setMag(this.speed);
+    position.add(velocity);
+  }
 }

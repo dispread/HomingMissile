@@ -27,6 +27,7 @@ void draw() {
   
   missile.display();
   player.display();
+  player.resetVelocity();
   
   missile.move();
 }

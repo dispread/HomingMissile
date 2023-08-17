@@ -9,15 +9,18 @@ class Missile extends Entity {
     println(position);
   }
   
-  void purePursuit() {
+  PVector getDifferenceVector() {
     float dx = target.position.x - this.position.x;
     float dy = target.position.y - this.position.y;
-    velocity = new PVector(dx, dy).setMag(speed);
+    return new PVector(dx, dy);
+  }
+  
+  void purePursuit() {
+    velocity = getDifferenceVector().setMag(speed);
   }
   
   void move() {
-    velocity.setMag(this.speed);
-    position.add(velocity);
+    super.move();
     velocity.set(0, 0);
     
     if(this.position.dist(target.position) < this.radius + target.radius) {
@@ -26,10 +29,7 @@ class Missile extends Entity {
   }
   
   void predictiveTargetting() {
-    
-    float dx = target.position.x - this.position.x;
-    float dy = target.position.y - this.position.y;
-    PVector diff = new PVector(dx, dy);
+    PVector diff = getDifferenceVector();
     
     // Calculate the signed target angle (angle HUNTER-PREY-PREY_DIR), is between -180 (right) to 180 (left)
     float targetAngle = PI - atan2(diff.y * target.velocity.x - diff.x * target.velocity.y, diff.x * target.velocity.x + diff.y * target.velocity.y);
